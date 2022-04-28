@@ -1,0 +1,12 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+/.vs
+/bin
+/obj
+/Properties
+/MitreAttackHelper.csproj.user
+/wwwroot/css/jquery*
+/wwwroot/css/bootstrap*
+/wwwroot/js/bootstrap*
+/wwwroot/js/jquery*

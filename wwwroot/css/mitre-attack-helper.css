@@ -1,0 +1,33 @@
+﻿.fs-smaller{
+    font-size: smaller;
+}
+
+.h-50px{
+    height: 50px;
+}
+
+.parent{
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.child{
+    color: dimgray;
+}
+
+.selected{  
+    background-color: dodgerblue;
+}
+
+.spinner-large {
+    width: 75px !important;
+    height: 75px !important;
+    border: 10px #0000008a solid !important;
+    border-right-color: transparent !important;
+    position: absolute;
+    margin: auto;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
