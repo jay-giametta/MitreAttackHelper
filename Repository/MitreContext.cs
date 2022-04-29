@@ -10,7 +10,7 @@ namespace MitreAttackHelper.Repository
 {
     public class MitreContext
     {
-        private MitreBundle mitreBundle;
+        protected readonly MitreBundle mitreBundle;
         public IEnumerable<MitreAttackPattern> MitreAttackPatterns { get; private set; }
         public IEnumerable<MitreCollection> MitreCollections { get; private set; }
         public IEnumerable<MitreCourseOfAction> MitreCoursesOfAction { get; private set; }
@@ -37,278 +37,238 @@ namespace MitreAttackHelper.Repository
                 mitreBundle = JsonConvert.DeserializeObject<MitreBundle>(File.ReadAllText(jsonFile));
             }
 
-            LoadMitreAttackPatterns(mitreBundle.Objects.Where(stix => stix.Type == "attack-pattern"));
-            LoadMitreCollections(mitreBundle.Objects.Where(stix => stix.Type == "x-mitre-collection"));
-            LoadMitreCoursesOfAction(mitreBundle.Objects.Where(stix => stix.Type == "course-of-action"));
-            LoadMitreDataComponents(mitreBundle.Objects.Where(stix => stix.Type == "x-mitre-data-component"));
-            LoadMitreDataSources(mitreBundle.Objects.Where(stix => stix.Type == "x-mitre-data-source"));
-            LoadMitreIdentities(mitreBundle.Objects.Where(stix => stix.Type == "identity"));
-            LoadMitreIntrusionSets(mitreBundle.Objects.Where(stix => stix.Type == "intrusion-set"));
-            LoadMitreMalware(mitreBundle.Objects.Where(stix => stix.Type == "malware"));
-            LoadMitreMarkingDefinitions(mitreBundle.Objects.Where(stix => stix.Type == "marking-definition"));
-            LoadMitreMatrices(mitreBundle.Objects.Where(stix => stix.Type == "x-mitre-matrix"));
-            LoadMitreRelationships(mitreBundle.Objects.Where(stix => stix.Type == "relationship"), 
+            LoadMitreAttackPatterns(mitreBundle.Objects.Where(generic => generic.Type == "attack-pattern"));
+            LoadMitreCollections(mitreBundle.Objects.Where(generic => generic.Type == "x-mitre-collection"));
+            LoadMitreCoursesOfAction(mitreBundle.Objects.Where(generic => generic.Type == "course-of-action"));
+            LoadMitreDataComponents(mitreBundle.Objects.Where(generic => generic.Type == "x-mitre-data-component"));
+            LoadMitreDataSources(mitreBundle.Objects.Where(generic => generic.Type == "x-mitre-data-source"));
+            LoadMitreIdentities(mitreBundle.Objects.Where(generic => generic.Type == "identity"));
+            LoadMitreIntrusionSets(mitreBundle.Objects.Where(generic => generic.Type == "intrusion-set"));
+            LoadMitreMalware(mitreBundle.Objects.Where(generic => generic.Type == "malware"));
+            LoadMitreMarkingDefinitions(mitreBundle.Objects.Where(generic => generic.Type == "marking-definition"));
+            LoadMitreMatrices(mitreBundle.Objects.Where(generic => generic.Type == "x-mitre-matrix"));
+            LoadMitreRelationships(mitreBundle.Objects.Where(generic => generic.Type == "relationship"), 
                 new string[] { "subtechnique-of", "uses" });
-            LoadMitreTactics(mitreBundle.Objects.Where(stix => stix.Type == "x-mitre-tactic"));
-            LoadMitreTools(mitreBundle.Objects.Where(stix => stix.Type == "tool"));
+            LoadMitreTactics(mitreBundle.Objects.Where(generic => generic.Type == "x-mitre-tactic"));
+            LoadMitreTools(mitreBundle.Objects.Where(generic => generic.Type == "tool"));
         }
 
         protected void LoadMitreAttackPatterns(in IEnumerable<MitreStixGeneric> bundle)
         {
-            MitreAttackPatterns = bundle.Select(stix => new MitreAttackPattern()
+            MitreAttackPatterns = bundle.Select(generic => new MitreAttackPattern()
             {
-                Aliases = stix.Aliases,
-                Created = stix.Created,
-                CreatedByRef = stix.CreatedByRef,
-                Description = stix.Description,
-                ExternalReferences = stix.ExternalReferences,
-                Id = stix.Id,
-                KillChainPhases = stix.KillChainPhases,
-                MitreAttackSpecVersion = stix.MitreAttackSpecVersion,
-                MitreContributers = stix.MitreContributers,
-                MitreDetection = stix.MitreDetection,
-                MitreDataSources = stix.MitreDataSources,
-                MitreDefenseByPassed = stix.MitreDefenseByPassed,
-                MitreDomains = stix.MitreDomains,
-                MitreIsSubTechnique = stix.MitreIsSubTechnique,
-                MitreModifiedByRef = stix.MitreModifiedByRef,
-                MitrePlatforms = stix.MitrePlatforms,
-                MitreVersion = stix.MitreVersion,
-                Modified = stix.Modified,
-                Name = stix.Name,
-                ObjectMarkingRefs = stix.ObjectMarkingRefs,
-                RelationshipType = stix.RelationshipType,
-                Revoked = stix.Revoked,
-                SpecVersion = stix.SpecVersion,
-                SourceRef = stix.SourceRef,
-                TargetRef = stix.TargetRef,
-                Type = stix.Type,
+                Created = generic.Created,
+                CreatedByRef = generic.CreatedByRef,
+                Description = generic.Description,
+                ExternalReferences = generic.ExternalReferences,
+                Id = generic.Id,
+                KillChainPhases = generic.KillChainPhases,
+                MitreAttackSpecVersion = generic.MitreAttackSpecVersion,
+                MitreContributers = generic.MitreContributers,
+                MitreDetection = generic.MitreDetection,
+                MitreDataSources = generic.MitreDataSources,
+                MitreDefenseByPassed = generic.MitreDefenseByPassed,
+                MitreDomains = generic.MitreDomains,
+                MitreIsSubTechnique = generic.MitreIsSubTechnique,
+                MitreModifiedByRef = generic.MitreModifiedByRef,
+                MitrePlatforms = generic.MitrePlatforms,
+                MitreVersion = generic.MitreVersion,
+                Modified = generic.Modified,
+                Name = generic.Name,
+                ObjectMarkingRefs = generic.ObjectMarkingRefs,
+                SpecVersion = generic.SpecVersion,
+                Type = generic.Type,
             });
         }
 
         protected void LoadMitreCollections(in IEnumerable<MitreStixGeneric> bundle)
         {
-            MitreCollections = bundle.Select(stix => new MitreCollection()
+            MitreCollections = bundle.Select(generic => new MitreCollection()
             {
-                Created = stix.Created,
-                CreatedByRef = stix.CreatedByRef,
-                Description = stix.Description,
-                ExternalReferences = stix.ExternalReferences,
-                Id = stix.Id,
-                MitreContents = stix.MitreContents,
-                MitreVersion = stix.MitreVersion,
-                Modified = stix.Modified,
-                Name = stix.Name,
-                ObjectMarkingRefs = stix.ObjectMarkingRefs,
-                RelationshipType = stix.RelationshipType,
-                Revoked = stix.Revoked,
-                SourceRef = stix.SourceRef,
-                SpecVersion = stix.SpecVersion,
-                TargetRef = stix.TargetRef,
-                Type = stix.Type
+                Created = generic.Created,
+                CreatedByRef = generic.CreatedByRef,
+                Description = generic.Description,
+                Id = generic.Id,
+                MitreContents = generic.MitreContents,
+                MitreVersion = generic.MitreVersion,
+                Modified = generic.Modified,
+                Name = generic.Name,
+                ObjectMarkingRefs = generic.ObjectMarkingRefs,
+                SpecVersion = generic.SpecVersion,
+                Type = generic.Type
             });
         }
 
         protected void LoadMitreCoursesOfAction(in IEnumerable<MitreStixGeneric> bundle)
         {
-            MitreCoursesOfAction = bundle.Select(stix => new MitreCourseOfAction()
+            MitreCoursesOfAction = bundle.Select(generic => new MitreCourseOfAction()
             {
-                Created = stix.Created,
-                CreatedByRef = stix.CreatedByRef,
-                Description = stix.Description,
-                ExternalReferences = stix.ExternalReferences,
-                Id = stix.Id,
-                MitreAttackSpecVersion = stix.MitreAttackSpecVersion,
-                MitreDeprecated = stix.MitreDeprecated,
-                MitreDomains = stix.MitreDomains,
-                MitreModifiedByRef = stix.MitreModifiedByRef,
-                MitreVersion = stix.MitreVersion,
-                Modified = stix.Modified,
-                Name = stix.Name,
-                ObjectMarkingRefs = stix.ObjectMarkingRefs,
-                RelationshipType = stix.RelationshipType,
-                Revoked = stix.Revoked,
-                SourceRef = stix.SourceRef,
-                SpecVersion = stix.SpecVersion,
-                TargetRef = stix.TargetRef,
-
-                Type = stix.Type
+                Created = generic.Created,
+                CreatedByRef = generic.CreatedByRef,
+                Description = generic.Description,
+                ExternalReferences = generic.ExternalReferences,
+                Id = generic.Id,
+                MitreAttackSpecVersion = generic.MitreAttackSpecVersion,
+                MitreDeprecated = generic.MitreDeprecated,
+                MitreDomains = generic.MitreDomains,
+                MitreModifiedByRef = generic.MitreModifiedByRef,
+                MitreVersion = generic.MitreVersion,
+                Modified = generic.Modified,
+                Name = generic.Name,
+                ObjectMarkingRefs = generic.ObjectMarkingRefs,
+                SpecVersion = generic.SpecVersion,
+                Type = generic.Type
             });
         }
 
         protected void LoadMitreDataComponents(in IEnumerable<MitreStixGeneric> bundle)
         {
-            MitreDataComponents = bundle.Select(stix => new MitreDataComponent()
+            MitreDataComponents = bundle.Select(generic => new MitreDataComponent()
             {
-                Created = stix.Created,
-                CreatedByRef = stix.CreatedByRef,
-                Description = stix.Description,
-                ExternalReferences = stix.ExternalReferences,
-                Id = stix.Id,
-                MitreAttackSpecVersion = stix.MitreAttackSpecVersion,
-                MitreDataSourceRef = stix.MitreDataSourceRef,
-                MitreDomains = stix.MitreDomains,
-                MitreModifiedByRef = stix.MitreModifiedByRef,
-                MitreVersion = stix.MitreVersion,
-                Modified = stix.Modified,
-                Name = stix.Name,
-                ObjectMarkingRefs = stix.ObjectMarkingRefs,
-                Revoked = stix.Revoked,
-                SpecVersion = stix.SpecVersion,
-                Type = stix.Type,
+                Created = generic.Created,
+                CreatedByRef = generic.CreatedByRef,
+                Description = generic.Description,
+                ExternalReferences = generic.ExternalReferences,
+                Id = generic.Id,
+                MitreAttackSpecVersion = generic.MitreAttackSpecVersion,
+                MitreDataSourceRef = generic.MitreDataSourceRef,
+                MitreDomains = generic.MitreDomains,
+                MitreModifiedByRef = generic.MitreModifiedByRef,
+                MitreVersion = generic.MitreVersion,
+                Modified = generic.Modified,
+                Name = generic.Name,
+                ObjectMarkingRefs = generic.ObjectMarkingRefs,
+                SpecVersion = generic.SpecVersion,
+                Type = generic.Type,
             });
         }
 
         protected void LoadMitreDataSources(in IEnumerable<MitreStixGeneric> bundle)
         {
-            MitreDataSources = bundle.Select(stix => new MitreDataSource()
+            MitreDataSources = bundle.Select(generic => new MitreDataSource()
             {
-                Created = stix.Created,
-                CreatedByRef = stix.CreatedByRef,
-                Description = stix.Description,
-                ExternalReferences = stix.ExternalReferences,
-                Id = stix.Id,
-                MitreAttackSpecVersion = stix.MitreAttackSpecVersion,
-                MitreDomains = stix.MitreDomains,
-                MitreContributers = stix.MitreContributers,
-                MitreModifiedByRef = stix.MitreModifiedByRef,
-                MitrePlatforms = stix.MitrePlatforms,
-                MitreVersion = stix.MitreVersion,
-                Modified = stix.Modified,
-                Name = stix.Name,
-                ObjectMarkingRefs = stix.ObjectMarkingRefs,
-                Revoked = stix.Revoked,
-                SpecVersion = stix.SpecVersion,
-                Type = stix.Type,
+                Created = generic.Created,
+                CreatedByRef = generic.CreatedByRef,
+                Description = generic.Description,
+                ExternalReferences = generic.ExternalReferences,
+                Id = generic.Id,
+                MitreAttackSpecVersion = generic.MitreAttackSpecVersion,
+                MitreDomains = generic.MitreDomains,
+                MitreModifiedByRef = generic.MitreModifiedByRef,
+                MitrePlatforms = generic.MitrePlatforms,
+                MitreVersion = generic.MitreVersion,
+                Modified = generic.Modified,
+                Name = generic.Name,
+                ObjectMarkingRefs = generic.ObjectMarkingRefs,
+                SpecVersion = generic.SpecVersion,
+                Type = generic.Type,
             });
         }
 
         protected void LoadMitreIdentities(in IEnumerable<MitreStixGeneric> bundle)
         {
-            MitreIdentities = bundle.Select(stix => new MitreIdentity()
+            MitreIdentities = bundle.Select(generic => new MitreIdentity()
             {
-                Created = stix.Created,
-                CreatedByRef = stix.CreatedByRef,
-                Description = stix.Description,
-                ExternalReferences = stix.ExternalReferences,
-                Id = stix.Id,
-                IdentityClass = stix.IdentityClass,
-                MitreAttackSpecVersion = stix.MitreAttackSpecVersion,
-                MitreDomains = stix.MitreDomains,
-                MitreVersion = stix.MitreVersion,
-                Modified = stix.Modified,
-                Name = stix.Name,
-                ObjectMarkingRefs = stix.ObjectMarkingRefs,
-                RelationshipType = stix.RelationshipType,
-                Revoked = stix.Revoked,
-                Roles = stix.Roles,
-                Sectors = stix.Sectors,
-                SpecVersion = stix.SpecVersion,
-                SourceRef = stix.SourceRef,
-                TargetRef = stix.TargetRef,
-                Type = stix.Type
+                Created = generic.Created,
+                ExternalReferences = generic.ExternalReferences,
+                Id = generic.Id,
+                IdentityClass = generic.IdentityClass,
+                MitreAttackSpecVersion = generic.MitreAttackSpecVersion,
+                MitreDomains = generic.MitreDomains,
+                MitreVersion = generic.MitreVersion,
+                Modified = generic.Modified,
+                Name = generic.Name,
+                ObjectMarkingRefs = generic.ObjectMarkingRefs,
+                Roles = generic.Roles,
+                Sectors = generic.Sectors,
+                SpecVersion = generic.SpecVersion,
+                Type = generic.Type
             });
         }
 
         protected void LoadMitreIntrusionSets(in IEnumerable<MitreStixGeneric> bundle)
         {
-            MitreIntrusionSets = bundle.Select(stix => new MitreIntrusionSet()
+            MitreIntrusionSets = bundle.Select(generic => new MitreIntrusionSet()
             {
-                Created = stix.Created,
-                CreatedByRef = stix.CreatedByRef,
-                Description = stix.Description,
-                ExternalReferences = stix.ExternalReferences,
-                Id = stix.Id,
-                MitreAttackSpecVersion = stix.MitreAttackSpecVersion,
-                MitreDeprecated = stix.MitreDeprecated,
-                MitreDomains = stix.MitreDomains,
-                MitreModifiedByRef = stix.MitreModifiedByRef,
-                MitreVersion = stix.MitreVersion,
-                Modified = stix.Modified,
-                Name = stix.Name,
-                ObjectMarkingRefs = stix.ObjectMarkingRefs,
-                RelationshipType = stix.RelationshipType,
-                Revoked = stix.Revoked,
-                SourceRef = stix.SourceRef,
-                SpecVersion = stix.SpecVersion,
-                TargetRef = stix.TargetRef,
-                Type = stix.Type,
-                Aliases = stix.Aliases,
+                Created = generic.Created,
+                CreatedByRef = generic.CreatedByRef,
+                Description = generic.Description,
+                ExternalReferences = generic.ExternalReferences,
+                Id = generic.Id,
+                MitreAttackSpecVersion = generic.MitreAttackSpecVersion,
+                MitreDomains = generic.MitreDomains,
+                MitreModifiedByRef = generic.MitreModifiedByRef,
+                MitreVersion = generic.MitreVersion,
+                Modified = generic.Modified,
+                Name = generic.Name,
+                ObjectMarkingRefs = generic.ObjectMarkingRefs,
+                SpecVersion = generic.SpecVersion,
+                Type = generic.Type,
+                Aliases = generic.Aliases,
             });
         }
 
         protected void LoadMitreMalware(in IEnumerable<MitreStixGeneric> bundle)
         {
-            MitreMalware = bundle.Select(stix => new MitreMalware()
+            MitreMalware = bundle.Select(generic => new MitreMalware()
             {
-                Created = stix.Created,
-                CreatedByRef = stix.CreatedByRef,
-                Description = stix.Description,
-                ExternalReferences = stix.ExternalReferences,
-                Id = stix.Id,
-                IsFamily = stix.IsFamily,
-                MitreAliases = stix.MitreAlases,
-                MitreAttackSpecVersion = stix.MitreAttackSpecVersion,
-                MitreContributers = stix.MitreContributers,
-                MitreDomains = stix.MitreDomains,
-                MitreModifiedByRef = stix.MitreModifiedByRef,
-                MitrePlatforms = stix.MitrePlatforms,
-                MitreVersion = stix.MitreVersion,
-                Modified = stix.Modified,
-                Name = stix.Name,
-                ObjectMarkingRefs = stix.ObjectMarkingRefs,
-                RelationshipType = stix.RelationshipType,
-                Revoked = stix.Revoked,
-                SourceRef = stix.SourceRef,
-                SpecVersion = stix.SpecVersion,
-                TargetRef = stix.TargetRef,
-                Type = stix.Type
+                Created = generic.Created,
+                CreatedByRef = generic.CreatedByRef,
+                Description = generic.Description,
+                ExternalReferences = generic.ExternalReferences,
+                Id = generic.Id,
+                IsFamily = generic.IsFamily,
+                MitreAliases = generic.MitreAlases,
+                MitreAttackSpecVersion = generic.MitreAttackSpecVersion,
+                MitreDomains = generic.MitreDomains,
+                MitreModifiedByRef = generic.MitreModifiedByRef,
+                MitrePlatforms = generic.MitrePlatforms,
+                MitreVersion = generic.MitreVersion,
+                Modified = generic.Modified,
+                Name = generic.Name,
+                ObjectMarkingRefs = generic.ObjectMarkingRefs,
+                SpecVersion = generic.SpecVersion,
+                Type = generic.Type
             });
         }
 
         protected void LoadMitreMarkingDefinitions(in IEnumerable<MitreStixGeneric> bundle)
         {
-            MitreMarkingDefinitions = bundle.Select(stix => new MitreMarkingDefinition()
+            MitreMarkingDefinitions = bundle.Select(generic => new MitreMarkingDefinition()
             {
-                Created = stix.Created,
-                CreatedByRef = stix.CreatedByRef,
-                Definition = stix.Definition,
-                DefinitionType = stix.DefinitionType,
-                ExternalReferences = stix.ExternalReferences,
-                Id = stix.Id,
-                MitreAttackSpecVersion = stix.MitreAttackSpecVersion,
-                MitreDomains = stix.MitreDomains,
-                Modified = stix.Modified,
-                ObjectMarkingRefs = stix.ObjectMarkingRefs,
-                RelationshipType = stix.RelationshipType,
-                Revoked = stix.Revoked,
-                SourceRef = stix.SourceRef,
-                SpecVersion = stix.SpecVersion,
-                TargetRef = stix.TargetRef,
-                Type = stix.Type,
+                Created = generic.Created,
+                CreatedByRef = generic.CreatedByRef,
+                Definition = generic.Definition,
+                DefinitionType = generic.DefinitionType,
+                ExternalReferences = generic.ExternalReferences,
+                Id = generic.Id,
+                MitreAttackSpecVersion = generic.MitreAttackSpecVersion,
+                MitreDomains = generic.MitreDomains,
+                ObjectMarkingRefs = generic.ObjectMarkingRefs,
+                SpecVersion = generic.SpecVersion,
+                Type = generic.Type,
             });
         }
 
         protected void LoadMitreMatrices(in IEnumerable<MitreStixGeneric> bundle)
         {
-            MitreMatrices = bundle.Select(stix => new MitreMatrix()
+            MitreMatrices = bundle.Select(generic => new MitreMatrix()
             {
-                Created = stix.Created,
-                CreatedByRef = stix.CreatedByRef,
-                Description = stix.Description,
-                ExternalReferences = stix.ExternalReferences,
-                Id = stix.Id,
-                MitreAttackSpecVersion = stix.MitreAttackSpecVersion,
-                MitreDomains = stix.MitreDomains,
-                MitreModifiedByRef = stix.MitreModifiedByRef,
-                MitreTacticsRefs = stix.MitreTacticsRefs,
-                MitreVersion = stix.MitreVersion,
-                Modified = stix.Modified,
-                Name = stix.Name,
-                ObjectMarkingRefs = stix.ObjectMarkingRefs,
-                Revoked = stix.Revoked,
-                SpecVersion = stix.SpecVersion,
-                Type = stix.Type
+                Created = generic.Created,
+                CreatedByRef = generic.CreatedByRef,
+                Description = generic.Description,
+                ExternalReferences = generic.ExternalReferences,
+                Id = generic.Id,
+                MitreAttackSpecVersion = generic.MitreAttackSpecVersion,
+                MitreDomains = generic.MitreDomains,
+                MitreModifiedByRef = generic.MitreModifiedByRef,
+                MitreTacticsRefs = generic.MitreTacticsRefs,
+                MitreVersion = generic.MitreVersion,
+                Modified = generic.Modified,
+                Name = generic.Name,
+                ObjectMarkingRefs = generic.ObjectMarkingRefs,
+                SpecVersion = generic.SpecVersion,
+                Type = generic.Type
             });
         }
 
@@ -316,78 +276,67 @@ namespace MitreAttackHelper.Repository
         {
             MitreRelationships = bundle
                 .Where(relationship => types.Contains(relationship.RelationshipType))
-                .Select(stix => new MitreRelationship()
+                .Select(generic => new MitreRelationship()
                 {
-                    Created = stix.Created,
-                    CreatedByRef = stix.CreatedByRef,
-                    ExternalReferences = stix.ExternalReferences,
-                    Id = stix.Id,
-                    MitreAttackSpecVersion = stix.MitreAttackSpecVersion,
-                    MitreDeprecated = stix.MitreDeprecated,
-                    MitreDomains = stix.MitreDomains,
-                    MitreModifiedByRef = stix.MitreModifiedByRef,
-                    MitreVersion = stix.MitreVersion,
-                    Modified = stix.Modified,
-                    ObjectMarkingRefs = stix.ObjectMarkingRefs,
-                    RelationshipType = stix.RelationshipType,
-                    Revoked = stix.Revoked,
-                    SourceRef = stix.SourceRef,
-                    SpecVersion = stix.SpecVersion,
-                    TargetRef = stix.TargetRef,
-                    Type = stix.Type
+                    Created = generic.Created,
+                    CreatedByRef = generic.CreatedByRef,
+                    ExternalReferences = generic.ExternalReferences,
+                    Id = generic.Id,
+                    MitreAttackSpecVersion = generic.MitreAttackSpecVersion,
+                    MitreDomains = generic.MitreDomains,
+                    MitreModifiedByRef = generic.MitreModifiedByRef,
+                    MitreVersion = generic.MitreVersion,
+                    Modified = generic.Modified,
+                    ObjectMarkingRefs = generic.ObjectMarkingRefs,
+                    RelationshipType = generic.RelationshipType,
+                    SourceRef = generic.SourceRef,
+                    SpecVersion = generic.SpecVersion,
+                    TargetRef = generic.TargetRef,
+                    Type = generic.Type
                 });
         }
 
         protected void LoadMitreTactics(in IEnumerable<MitreStixGeneric> bundle)
         {
-            MitreTactics = bundle.Select(stix => new MitreTactic()
+            MitreTactics = bundle.Select(generic => new MitreTactic()
             {
-                Created = stix.Created,
-                CreatedByRef = stix.CreatedByRef,
-                Description = stix.Description,
-                ExternalReferences = stix.ExternalReferences,
-                Id = stix.Id,
-                MitreAttackSpecVersion = stix.MitreAttackSpecVersion,
-                MitreContributers = stix.MitreContributers,
-                MitreDomains = stix.MitreDomains,
-                MitreModifiedByRef = stix.MitreModifiedByRef,
-                MitreVersion = stix.MitreVersion,
-                MitreShortName = stix.MitreShortName,
-                MitreTacticsRefs = stix.MitreTacticsRefs,
-                Modified = stix.Modified,
-                Name = stix.Name,
-                ObjectMarkingRefs = stix.ObjectMarkingRefs,
-                Revoked = stix.Revoked,
-                SpecVersion = stix.SpecVersion,
-                Type = stix.Type,
+                Created = generic.Created,
+                CreatedByRef = generic.CreatedByRef,
+                Description = generic.Description,
+                ExternalReferences = generic.ExternalReferences,
+                Id = generic.Id,
+                MitreAttackSpecVersion = generic.MitreAttackSpecVersion,
+                MitreDomains = generic.MitreDomains,
+                MitreModifiedByRef = generic.MitreModifiedByRef,
+                MitreVersion = generic.MitreVersion,
+                MitreShortName = generic.MitreShortName,
+                Modified = generic.Modified,
+                Name = generic.Name,
+                ObjectMarkingRefs = generic.ObjectMarkingRefs,
+                SpecVersion = generic.SpecVersion,
+                Type = generic.Type,
             });
         }
 
         protected void LoadMitreTools(in IEnumerable<MitreStixGeneric> bundle)
         {
-            MitreTools = bundle.Select(stix => new MitreTool()
+            MitreTools = bundle.Select(generic => new MitreTool()
             {
-                Created = stix.Created,
-                CreatedByRef = stix.CreatedByRef,
-                Description = stix.Description,
-                ExternalReferences = stix.ExternalReferences,
-                Id = stix.Id,
-                MitreAliases = stix.MitrePlatforms,
-                MitreContributers = stix.MitreContributers,
-                MitreDeprecated = stix.MitreDeprecated,
-                MitreDomains = stix.MitreDomains,
-                MitreModifiedByRef = stix.MitreModifiedByRef,
-                MitrePlatforms = stix.MitrePlatforms,
-                MitreVersion = stix.MitreVersion,
-                Modified = stix.Modified,
-                Name = stix.Name,
-                ObjectMarkingRefs = stix.ObjectMarkingRefs,
-                RelationshipType = stix.RelationshipType,
-                Revoked = stix.Revoked,
-                SourceRef = stix.SourceRef,
-                SpecVersion = stix.SpecVersion,
-                TargetRef = stix.TargetRef,
-                Type = stix.Type,
+                Created = generic.Created,
+                CreatedByRef = generic.CreatedByRef,
+                Description = generic.Description,
+                ExternalReferences = generic.ExternalReferences,
+                Id = generic.Id,
+                MitreAliases = generic.MitrePlatforms,
+                MitreDomains = generic.MitreDomains,
+                MitreModifiedByRef = generic.MitreModifiedByRef,
+                MitrePlatforms = generic.MitrePlatforms,
+                MitreVersion = generic.MitreVersion,
+                Modified = generic.Modified,
+                Name = generic.Name,
+                ObjectMarkingRefs = generic.ObjectMarkingRefs,
+                SpecVersion = generic.SpecVersion,
+                Type = generic.Type,
             });
         }
     }

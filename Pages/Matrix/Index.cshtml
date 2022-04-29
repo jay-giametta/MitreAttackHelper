@@ -33,7 +33,7 @@
                         parent = "parent";
                     }
 
-                    if (Model.IntrusionSetAttackPatterns.Any(attackPattern => attackPattern.Id == AttackPattern.Id))
+                    if (Model.IntrusionSetAttackPatternIds.Contains(AttackPattern.Id))
                     {
                         selected = "selected";
                     }

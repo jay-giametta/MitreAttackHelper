@@ -6,7 +6,7 @@
     height: 50px;
 }
 
-.parent{
+.parent {
     text-decoration: underline;
     cursor: pointer;
 }
@@ -15,8 +15,10 @@
     color: dimgray;
 }
 
-.selected{  
+.selected{
+    color: white;
     background-color: dodgerblue;
+    text-decoration-color: white !important;
 }
 
 .spinner-large {

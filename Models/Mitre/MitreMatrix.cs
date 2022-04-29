@@ -1,11 +1,10 @@
 ﻿using MitreAttackHelper.Models.Stix;
-using MitreAttackHelper.Models.Stix.Interfaces;
 using System;
 using System.Collections.Generic;
 
 namespace MitreAttackHelper.Models.Mitre
 {
-    public class MitreMatrix : IStixObject
+    public class MitreMatrix
     {
         public string SpecVersion { get; set; }
         public DateTime? Created { get; set; }
@@ -21,7 +20,6 @@ namespace MitreAttackHelper.Models.Mitre
         public DateTime? Modified { get; set; }
         public string Name { get; set; }
         public IEnumerable<string> ObjectMarkingRefs { get; set; }
-        public bool? Revoked { get; set; }
         public string Type { get; set; }
     }
 }

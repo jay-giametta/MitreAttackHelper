@@ -26,7 +26,7 @@ function jLoad(divId, url) {
 }
 
 function jSelectToggle(domElement) {
-    element = $(domElement);
+    element = $(domElement).parent();
     if (element.hasClass('selected')) {
         element.removeClass('selected');
     }

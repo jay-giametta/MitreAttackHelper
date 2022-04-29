@@ -1,11 +1,10 @@
-﻿using MitreAttackHelper.Models.Stix.Interfaces;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 
 namespace MitreAttackHelper.Models.Stix
 {
-    public class StixGeneric : IStixObject, IStixRelatable
+    public class StixGeneric
     {
         [JsonProperty("aliases")]
         public IEnumerable<string> Aliases { get; set; }
@@ -37,8 +36,6 @@ namespace MitreAttackHelper.Models.Stix
         public IEnumerable<string> ObjectMarkingRefs { get; set; }
         [JsonProperty("relationship_type")]
         public string RelationshipType { get; set; }
-        [JsonProperty("revoked")]
-        public bool? Revoked { get; set; }
         [JsonProperty("roles")]
         public IEnumerable<string> Roles { get; set; }
         [JsonProperty("sectors")]

@@ -1,11 +1,10 @@
-﻿using MitreAttackHelper.Models.Stix.Interfaces;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 
 namespace MitreAttackHelper.Models.Stix
 {
-    public class Bundle : IStixObject
+    public class Bundle
     {
         [JsonProperty("created")]
         public DateTime? Created { get; set; }
@@ -21,8 +20,6 @@ namespace MitreAttackHelper.Models.Stix
         public IEnumerable<StixGeneric> Objects { get; set; }
         [JsonProperty("object_marking_refs")]
         public IEnumerable<string> ObjectMarkingRefs { get; set; }
-        [JsonProperty("revoked")]
-        public bool? Revoked { get; set; }
         [JsonProperty("spec_version")]
         public string SpecVersion { get; set; }
         [JsonProperty("type")]
