@@ -48,7 +48,7 @@ namespace MitreAttackHelper.Repository
             LoadMitreMarkingDefinitions(mitreBundle.Objects.Where(stix => stix.Type == "marking-definition"));
             LoadMitreMatrices(mitreBundle.Objects.Where(stix => stix.Type == "x-mitre-matrix"));
             LoadMitreRelationships(mitreBundle.Objects.Where(stix => stix.Type == "relationship"), 
-                new string[] { "subtechnique-of" });
+                new string[] { "subtechnique-of", "uses" });
             LoadMitreTactics(mitreBundle.Objects.Where(stix => stix.Type == "x-mitre-tactic"));
             LoadMitreTools(mitreBundle.Objects.Where(stix => stix.Type == "tool"));
         }

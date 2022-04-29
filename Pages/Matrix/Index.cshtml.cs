@@ -12,21 +12,27 @@ namespace MitreAttackHelper.Pages.Matrix
 {
     public class IndexModel : PageModel
     {
+        protected string intrusionSet;
         protected readonly IServiceProvider services;
-        public MitreMatrix Matrix { get; private set; }
         public IEnumerable<(MitreTactic Tactic, IEnumerable<(MitreAttackPattern AttackPattern, string ParentId)> AttackPatterns)> CombinedTacticData { get; set; }
+        public MitreIntrusionSet IntrusionSet { get; private set; }
+        public IEnumerable<MitreAttackPattern> IntrusionSetAttackPatterns { get; private set; }
+        public MitreMatrix Matrix { get; private set; }
         public List<string> ParentIds { get; private set; }
-
         public IndexModel(IServiceProvider services)
         {
             this.services = services;
+            IntrusionSet = new();
+            IntrusionSetAttackPatterns = new List<MitreAttackPattern>();
             ParentIds = new();
         }
         public IActionResult OnGet()
         {
             try
             {
+                LoadParameters(Request?.Query);
                 LoadMatrixData();
+                LoadIntrusionSetData(intrusionSet);
                 LoadCombinedTacticsData(Matrix);
             }
             catch (InvalidOperationException)
@@ -35,13 +41,6 @@ namespace MitreAttackHelper.Pages.Matrix
             }
             return Page();
         }
-
-        protected void LoadMatrixData()
-        {
-            MitreMatrixService mitreMatrixService = services.GetRequiredService<MitreMatrixService>();
-            Matrix = mitreMatrixService.Get().First();
-        }
-
         protected void LoadCombinedTacticsData(MitreMatrix matrix)
         {
             MitreTacticService mitreTacticService = services.GetRequiredService<MitreTacticService>();
@@ -59,7 +58,7 @@ namespace MitreAttackHelper.Pages.Matrix
                 .Select(combined =>
                 (combined.tactic,
                 combined.attackPatterns
-                .Select(attackPattern => (attackPattern, GetParentTechnique(attackPattern)))
+                .Select(attackPattern => (attackPattern, GetAttackPatternParent(attackPattern)))
                 .OrderBy(combined => combined.Item2)
                 .ThenBy(combined => (combined.attackPattern.Id == combined.Item2 ? 0 : 1))
                 .ThenBy(combined => combined.attackPattern.Name)
@@ -68,13 +67,38 @@ namespace MitreAttackHelper.Pages.Matrix
                 .SelectMany(group => group)
                 .AsEnumerable()));
         }
-         
-        public string GetParentTechnique(MitreAttackPattern attackPattern)
+
+        protected void LoadIntrusionSetData(string id)
+        {
+            MitreAttackPatternService mitreAttackPatternService = services.GetRequiredService<MitreAttackPatternService>();
+            MitreIntrusionSetService mitreIntrusionSetService = services.GetRequiredService<MitreIntrusionSetService>();
+            MitreRelationshipService mitreRelationshipService = services.GetRequiredService<MitreRelationshipService>();
+
+            IntrusionSet = mitreIntrusionSetService.Get(id) ?? IntrusionSet;
+            IntrusionSetAttackPatterns = mitreRelationshipService.GetAttackPatternsUsed(id)
+                .Join(mitreAttackPatternService.Get(),
+                attackPatternId => attackPatternId,
+                attackPattern => attackPattern.Id,
+                (attackPatternId, attackPattern) => attackPattern);
+        }
+
+        protected void LoadMatrixData()
+        {
+            MitreMatrixService mitreMatrixService = services.GetRequiredService<MitreMatrixService>();
+            Matrix = mitreMatrixService.Get().First();
+        }
+
+        protected void LoadParameters(IQueryCollection query)
+        {
+            intrusionSet = query?["intrusion-set"];
+        }
+
+        protected string GetAttackPatternParent(MitreAttackPattern attackPattern)
         {
             if (attackPattern.MitreIsSubTechnique == true)
             {
                 MitreRelationshipService mitreRelationshipService = services.GetRequiredService<MitreRelationshipService>();
-                string parentId = mitreRelationshipService.GetParentTechnique(attackPattern.Id);
+                string parentId = mitreRelationshipService.GetAttackPatternParent(attackPattern.Id);
                 ParentIds.Add(parentId);
                 return parentId;
             }

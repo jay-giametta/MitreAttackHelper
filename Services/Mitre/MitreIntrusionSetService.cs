@@ -3,6 +3,7 @@ using MitreAttackHelper.Models.Mitre;
 using MitreAttackHelper.Repository;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace MitreAttackHelper.Services.Mitre
 {
@@ -18,6 +19,12 @@ namespace MitreAttackHelper.Services.Mitre
         {
             MitreContext mitreContext = services.GetRequiredService<MitreContext>();
             return mitreContext.MitreIntrusionSets;
+        }
+
+        public MitreIntrusionSet Get(string id)
+        {
+            MitreContext mitreContext = services.GetRequiredService<MitreContext>();
+            return mitreContext.MitreIntrusionSets.FirstOrDefault(intrusionSet => intrusionSet.Id == id);
         }
     }
 }

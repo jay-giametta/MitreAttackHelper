@@ -21,12 +21,23 @@ namespace MitreAttackHelper.Services.Mitre
             return mitreContext.MitreRelationships;
         }
 
-        public string GetParentTechnique(string subId)
+        public string GetAttackPatternParent(string subId)
         {
             MitreContext mitreContext = services.GetRequiredService<MitreContext>();
             return mitreContext.MitreRelationships
-                .FirstOrDefault(relationship => relationship.RelationshipType == "subtechnique-of" && relationship.SourceRef == subId)
+                .FirstOrDefault(relationship => relationship.RelationshipType == "subtechnique-of" 
+                && relationship.SourceRef == subId)
                 ?.TargetRef ?? subId;
+        }
+
+        public IEnumerable<string> GetAttackPatternsUsed(string id)
+        {
+            MitreContext mitreContext = services.GetRequiredService<MitreContext>();
+            return mitreContext.MitreRelationships
+                .Where(relationship => relationship.RelationshipType == "uses"
+                && relationship.SourceRef == id
+                && relationship.TargetRef.StartsWith("attack"))
+                .Select(relationship => relationship.TargetRef);
         }
     }
 }

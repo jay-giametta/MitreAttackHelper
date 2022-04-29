@@ -3,25 +3,41 @@
 
 @using MitreAttackHelper.Models.Mitre;
 
+<div id="top-info-bar"class="row align-middle">
+    <div id="results-info" class="col-3">
+        <div class="row h-50px">
+            <span class="my-auto fw-bold">
+                Showing results for:
+                @(Model.IntrusionSet.Name != null ? $"Intrusion Set - {Model.IntrusionSet.Name}" : "User Selection")
+            </span>
+        </div>
+    </div>
+</div>
 <div id="@Model.Matrix.Id" name="@Model.Matrix.Name" class="row text-center align-middle fs-smaller">
     @{
         foreach ((MitreTactic Tactic, IEnumerable<(MitreAttackPattern AttackPattern, string ParentId)> AttackPatterns) in Model.CombinedTacticData)
         {
             <div id="@Tactic.Id" class="col">
-                <div id="@Tactic.MitreShortName" class="row border-bottom border-dark h-50px">
+                <div id="@Tactic.MitreShortName" class="row border-bottom border-top border-dark h-50px">
                     <span class="my-auto fw-bold">@Tactic.Name</span>
                 </div>
                 @foreach ((MitreAttackPattern AttackPattern, string ParentId) in AttackPatterns)
                 {
                     string onclick = null;
                     string parent = null;
+                    string selected = null;
 
                     if (Model.ParentIds.Contains(AttackPattern.Id))
                     {
                         onclick = $"jCollapseToggle('{AttackPattern.Id}', '{Tactic.Id}');";
                         parent = "parent";
                     }
-                    <div id="@AttackPattern.Id" class="row border @parent @(AttackPattern.MitreIsSubTechnique == true ? "child collapse" : null)" data-parent="@ParentId">
+
+                    if (Model.IntrusionSetAttackPatterns.Any(attackPattern => attackPattern.Id == AttackPattern.Id))
+                    {
+                        selected = "selected";
+                    }
+                    <div id="@AttackPattern.Id" class="row border @parent @(AttackPattern.MitreIsSubTechnique == true ? "child collapse" : null) @selected" data-parent="@ParentId">
                         <span class="my-auto" onclick="@onclick" oncontextmenu="return jSelectToggle(this);">@AttackPattern.Name</span>
                     </div>
                 }
