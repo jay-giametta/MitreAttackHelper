@@ -3,12 +3,34 @@
 
 @using MitreAttackHelper.Models.Mitre;
 
-<div id="top-info-bar"class="row align-middle">
-    <div id="results-info" class="col-3">
+<div id="top-info-bar" class="row align-middle text-start">
+    <div id="results-info" class="col-4">
         <div class="row h-50px">
             <span class="my-auto fw-bold">
-                Showing results for:
-                @(Model.IntrusionSet.Name != null ? $"Intrusion Set - {Model.IntrusionSet.Name}" : "User Selection")
+                Showing Results for
+                @(Model.IntrusionSet.Name != null ? $"Intrusion Set: {Model.IntrusionSet.Name}" : "User Selection")
+            </span>
+        </div>
+    </div>
+    <div id="page-info" class="col text-center">
+        <div class="row h-50px">
+            <span class="my-auto fw-bold text-decoration-underline">
+                @Model.Matrix.Name @Model.Matrix.MitreAttackSpecVersion
+            </span>
+        </div>
+    </div>
+    <div id="intrusion-set-selector" class="col-4 text-end">
+        <div class="row h-50px">
+            <span class="my-auto fw-bold">
+                Intrusion Sets
+                <select id="intrusion-set" class="text-center" onchange="jLoad('page', `/Matrix?intrusion-set=${$(this).val()}`)">
+                    <option></option>
+                    @foreach (MitreIntrusionSet intrusionSet in Model.IntrusionSets)
+                    {
+                        <option value="@intrusionSet.Id">@intrusionSet.Name</option>
+                    }
+                </select>
+                <a href="javascript:jLoad('page', '/Matrix')">Clear</a>
             </span>
         </div>
     </div>

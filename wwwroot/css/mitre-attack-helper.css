@@ -1,4 +1,10 @@
-﻿.fs-smaller{
+﻿a{
+    color: dodgerblue;
+    font-weight: normal;
+    text-decoration: none;
+}
+
+.fs-smaller{
     font-size: smaller;
 }
 

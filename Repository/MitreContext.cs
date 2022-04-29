@@ -10,7 +10,6 @@ namespace MitreAttackHelper.Repository
 {
     public class MitreContext
     {
-        protected readonly MitreBundle mitreBundle;
         public IEnumerable<MitreAttackPattern> MitreAttackPatterns { get; private set; }
         public IEnumerable<MitreCollection> MitreCollections { get; private set; }
         public IEnumerable<MitreCourseOfAction> MitreCoursesOfAction { get; private set; }
@@ -28,6 +27,8 @@ namespace MitreAttackHelper.Repository
 
         public MitreContext(string url = null, string jsonFile = "App_Data/enterprise-attack.json")
         {
+            MitreBundle mitreBundle;
+
             try
             {
                 mitreBundle = JsonConvert.DeserializeObject<MitreBundle>(new WebClient().DownloadString(url));

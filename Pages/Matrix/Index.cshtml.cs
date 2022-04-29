@@ -16,6 +16,7 @@ namespace MitreAttackHelper.Pages.Matrix
         protected readonly IServiceProvider services;
         public IEnumerable<(MitreTactic Tactic, IEnumerable<(MitreAttackPattern AttackPattern, string ParentId)> AttackPatterns)> CombinedTacticData { get; set; }
         public MitreIntrusionSet IntrusionSet { get; private set; }
+        public IEnumerable<MitreIntrusionSet> IntrusionSets { get; private set; }
         public IEnumerable<string> IntrusionSetAttackPatternIds { get; private set; }
         public MitreMatrix Matrix { get; private set; }
         public List<string> ParentIds { get; private set; }
@@ -23,6 +24,7 @@ namespace MitreAttackHelper.Pages.Matrix
         {
             this.services = services;
             IntrusionSet = new();
+            IntrusionSets = new List<MitreIntrusionSet>();
             IntrusionSetAttackPatternIds = new List<string>();
             ParentIds = new();
         }
@@ -87,6 +89,8 @@ namespace MitreAttackHelper.Pages.Matrix
             MitreRelationshipService mitreRelationshipService = services.GetRequiredService<MitreRelationshipService>();
 
             IntrusionSet = mitreIntrusionSetService.Get(id) ?? IntrusionSet;
+            IntrusionSets = mitreIntrusionSetService.Get()
+                .OrderBy(intrusionSet => intrusionSet.Name);
             IntrusionSetAttackPatternIds = mitreRelationshipService.GetAttackPatternsUsed(id);
         }
 
