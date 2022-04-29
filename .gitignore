@@ -10,3 +10,4 @@
 /wwwroot/css/bootstrap*
 /wwwroot/js/bootstrap*
 /wwwroot/js/jquery*
+/.config
