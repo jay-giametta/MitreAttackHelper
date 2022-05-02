@@ -50,7 +50,11 @@ namespace MitreAttackHelper
             app.UseWebOptimizer();
             app.UseRouting();
             app.UseStaticFiles();
-            app.UseEndpoints(endpoints => endpoints.MapRazorPages());
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapRazorPages();
+                endpoints.MapControllers();
+            });
         }
     }
 }

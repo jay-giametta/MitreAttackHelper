@@ -4,11 +4,18 @@
 @using MitreAttackHelper.Models.Mitre;
 
 <div id="top-info-bar" class="row align-middle text-start">
-    <div id="results-info" class="col-4">
+    <div id="intrusion-set-selector" class="col-4 text-start">
         <div class="row h-50px">
             <span class="my-auto fw-bold">
-                Showing Results for
-                @(Model.IntrusionSet.Name != null ? $"Intrusion Set: {Model.IntrusionSet.Name}" : "User Selection")
+                Intrusion Set
+                <select id="intrusion-set" class="text-center" onchange="jIntrusionSelect($(this).val())">
+                    <option></option>
+                    @foreach (MitreIntrusionSet intrusionSet in Model.IntrusionSets)
+                    {
+                        <option value="@intrusionSet.Id">@intrusionSet.Name</option>
+                    }
+                </select>
+                <a href="javascript:jClearSelection();">Clear</a>
             </span>
         </div>
     </div>
@@ -19,21 +26,7 @@
             </span>
         </div>
     </div>
-    <div id="intrusion-set-selector" class="col-4 text-end">
-        <div class="row h-50px">
-            <span class="my-auto fw-bold">
-                Intrusion Sets
-                <select id="intrusion-set" class="text-center" onchange="jLoad('page', `/Matrix?intrusion-set=${$(this).val()}`)">
-                    <option></option>
-                    @foreach (MitreIntrusionSet intrusionSet in Model.IntrusionSets)
-                    {
-                        <option value="@intrusionSet.Id">@intrusionSet.Name</option>
-                    }
-                </select>
-                <a href="javascript:jLoad('page', '/Matrix')">Clear</a>
-            </span>
-        </div>
-    </div>
+    <div id="other-info" class="col-4 text-end"></div>
 </div>
 <div id="@Model.Matrix.Id" name="@Model.Matrix.Name" class="row text-center align-middle fs-smaller">
     @{
@@ -45,23 +38,17 @@
                 </div>
                 @foreach ((MitreAttackPattern AttackPattern, string ParentId) in AttackPatterns)
                 {
-                    string onclick = null;
-                    string parent = null;
-                    string selected = null;
-
-                    if (Model.ParentIds.Contains(AttackPattern.Id))
-                    {
-                        onclick = $"jCollapseToggle('{AttackPattern.Id}', '{Tactic.Id}');";
-                        parent = "parent";
-                    }
-
-                    if (Model.IntrusionSetAttackPatternIds.Contains(AttackPattern.Id))
-                    {
-                        selected = "selected";
-                    }
-                    <div id="@AttackPattern.Id" class="row border @parent @(AttackPattern.MitreIsSubTechnique == true ? "child collapse" : null) @selected" data-parent="@ParentId">
-                        <span class="my-auto" onclick="@onclick" oncontextmenu="return jSelectToggle(this);">@AttackPattern.Name</span>
+                    <div id="@AttackPattern.Id" class="row border @(AttackPattern.MitreIsSubTechnique == true ? "child collapse" : null)" data-parent="@ParentId">
+                        <span class="my-auto" oncontextmenu="return jSelectToggle(this);">@AttackPattern.Name</span>
                     </div>
+                }
+
+                @foreach (string parentId in Model.ParentIds)
+                {
+                    <script>
+                        $('#@parentId').addClass('parent');
+                        $('#@parentId').attr('onClick', 'jCollapseToggle(this)');
+                    </script>
                 }
             </div>
         }
