@@ -7,8 +7,7 @@
 
 function jCollapseToggle(domElement) {
     const id = $(domElement).attr('id');
-    const parent = $(domElement).parent();
-    const children = parent.find(`[data-parent='${id}']`).not('.parent');
+    const children = $(document).find(`[data-parent='${id}']`).not('.parent');
     if (children.hasClass('collapse')) {
         children.removeClass('collapse');
     }
@@ -27,7 +26,7 @@ function jIntrusionSelect(id) {
                 url: `API/Mitre/Relationships/Source/${id}/UsesAttackPatterns`,
                 success: (attackPatternIds) => {
                     $('#spinner').hide();
-                    JSON.parse(attackPatternIds).forEach((attackPatternId) => $(`#${attackPatternId}`).addClass('selected'));
+                    JSON.parse(attackPatternIds).forEach((attackPatternId) => $(document).find(`[id='${attackPatternId}']`).addClass('selected'));
                     $('#intrusion-set').val(id);
                 },
                 failure: (error) => {
@@ -61,11 +60,8 @@ function jMatchIntrusionSets() {
     $('#spinner').show();
 
     let matches = {};
-    userSelected.forEach((selection) => {
-        matches[selection];
-    });
-
     let promises = [];
+
     userSelected.forEach((selection) => {
         promises.push(new Promise((resolve, reject) => {
             $.ajax({
@@ -108,16 +104,17 @@ function jModalShow(url) {
 }
 
 function jSelectToggle(domElement) {
-    const element = $(domElement).parent();
-    if (element.hasClass('user-selected')) {
-        element.removeClass('user-selected');
+    const id = $(domElement).parent().attr('id');
+    const elements = $(document).find(`[id='${id}']`);
+    if (elements.hasClass('user-selected')) {
+        elements.removeClass('user-selected');
         userSelected = userSelected.filter((value) => {
-            return value !== element.attr('id');
+            return value !== elements.attr('id');
         });
     }
     else {
-        element.addClass('user-selected');
-        userSelected.push(element.attr('id'));
+        elements.addClass('user-selected');
+        userSelected.push(elements.attr('id'));
     }
     return false;
 }

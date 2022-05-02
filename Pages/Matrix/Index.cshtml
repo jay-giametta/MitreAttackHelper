@@ -50,13 +50,13 @@
                 }
             </div>
         }
-        <script>
+<script>
             @foreach (string parentId in Model.ParentIds)
             {
-                @:$('#@parentId').addClass('parent');
-                @:$('#@parentId').attr('onClick', 'jCollapseToggle(this)');
+                @:$(document).find(`[id='@parentId']`).addClass('parent');
+                @:$(document).find(`[id='@parentId']`).attr('onClick', 'jCollapseToggle(this)');
             }
-        </script>
+</script>
         <script>
             var userSelected = [];
             var result = {};

@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using MitreAttackHelper.Services.Mitre;
 using Newtonsoft.Json;
 using System;
+using System.Linq;
 
 namespace MitreAttackHelper.Controllers.Mitre
 {
@@ -25,7 +26,11 @@ namespace MitreAttackHelper.Controllers.Mitre
         public IActionResult GetTargetUsedByIntrusionSets(string id)
         {
             MitreRelationshipService mitreRelationshipService = services.GetRequiredService<MitreRelationshipService>();
-            return Ok(JsonConvert.SerializeObject(mitreRelationshipService.GetTargetUsedByIntrusionSets(id), Formatting.Indented));
+            return Ok(
+                JsonConvert.SerializeObject(mitreRelationshipService.GetTargetUsedByIntrusionSets(id)
+                .GroupBy(target => target)
+                .Select(target => target.First())
+                , Formatting.Indented));
         }
     }
 }
