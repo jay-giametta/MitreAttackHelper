@@ -11,21 +11,26 @@
 }
 
 function jIntrusionSelect(id) {
-    $(document).ready(() => {
-        $('#spinner').show();
-        $.ajax({
-            type: 'GET',
-            url: `API/Mitre/Relationships/${id}/AttackPatternsUsed`,
-            success: (attackPatternIds) => {
-                $('#spinner').hide();
-                jClearSelection();
-                JSON.parse(attackPatternIds).forEach((attackPatternId) => $(`#${attackPatternId}`).addClass('selected'));
-            },
-            failure: (error) => {
-                $('#spinner').hide();
-            }
+    if (id !== "") {
+        $(document).ready(() => {
+            $('#spinner').show();
+            $.ajax({
+                type: 'GET',
+                url: `API/Mitre/Relationships/${id}/AttackPatternsUsed`,
+                success: (attackPatternIds) => {
+                    $('#spinner').hide();
+                    jClearSelection();
+                    JSON.parse(attackPatternIds).forEach((attackPatternId) => $(`#${attackPatternId}`).addClass('selected'));
+                },
+                failure: (error) => {
+                    $('#spinner').hide();
+                }
+            });
         });
-    });
+    }
+    else {
+        jClearSelection();
+    }
 }
 
 function jLoad(divId, url) {
