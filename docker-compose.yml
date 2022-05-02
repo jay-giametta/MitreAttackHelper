@@ -1,0 +1,5 @@
+﻿services:
+  mitreattackhelper:
+    ports:
+      - "5000:5000"
+    image: jaygiametta/mitreattackhelper
