@@ -42,15 +42,14 @@
                         <span class="my-auto" oncontextmenu="return jSelectToggle(this);">@AttackPattern.Name</span>
                     </div>
                 }
-
-                @foreach (string parentId in Model.ParentIds)
-                {
-                    <script>
-                        $('#@parentId').addClass('parent');
-                        $('#@parentId').attr('onClick', 'jCollapseToggle(this)');
-                    </script>
-                }
             </div>
         }
+        <script>
+            @foreach (string parentId in Model.ParentIds)
+            {
+                @:$('#@parentId').addClass('parent');
+                @:$('#@parentId').attr('onClick', 'jCollapseToggle(this)');
+            }
+        </script>
     }
 </div>
