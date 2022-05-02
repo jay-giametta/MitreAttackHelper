@@ -14,11 +14,18 @@ namespace MitreAttackHelper.Controllers.Mitre
             this.services = services;
         }
 
-        [HttpGet("API/Mitre/Relationships/{id}/AttackPatternsUsed")]
-        public IActionResult GetAttackPatternsUsed(string id)
+        [HttpGet("API/Mitre/Relationships/Source/{id}/UsesAttackPatterns")]
+        public IActionResult GetUsesAttackPatterns(string id)
         {
             MitreRelationshipService mitreRelationshipService = services.GetRequiredService<MitreRelationshipService>();
-            return Ok(JsonConvert.SerializeObject(mitreRelationshipService.GetAttackPatternsUsed(id), Formatting.Indented));
+            return Ok(JsonConvert.SerializeObject(mitreRelationshipService.GetUsesAttackPatterns(id), Formatting.Indented));
+        }
+
+        [HttpGet("API/Mitre/Relationships/Target/{id}/UsedByIntrusionSets")]
+        public IActionResult GetTargetUsedByIntrusionSets(string id)
+        {
+            MitreRelationshipService mitreRelationshipService = services.GetRequiredService<MitreRelationshipService>();
+            return Ok(JsonConvert.SerializeObject(mitreRelationshipService.GetTargetUsedByIntrusionSets(id), Formatting.Indented));
         }
     }
 }

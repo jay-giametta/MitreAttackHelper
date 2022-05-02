@@ -26,7 +26,13 @@
             </span>
         </div>
     </div>
-    <div id="other-info" class="col-4 text-end"></div>
+    <div id="other-info" class="col-4 text-end">
+        <div class="row h-50px">
+            <span class="my-auto">
+                <a href="javascript:jMatchIntrusionSets();">Find Matching Intrusion Sets</a>
+            </span>
+        </div>
+    </div>
 </div>
 <div id="@Model.Matrix.Id" name="@Model.Matrix.Name" class="row text-center align-middle fs-smaller">
     @{
@@ -53,6 +59,7 @@
         </script>
         <script>
             var userSelected = [];
+            var result = {};
         </script>
     }
 </div>

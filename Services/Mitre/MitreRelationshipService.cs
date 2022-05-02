@@ -30,7 +30,7 @@ namespace MitreAttackHelper.Services.Mitre
                 ?.TargetRef ?? subId;
         }
 
-        public IEnumerable<string> GetAttackPatternsUsed(string id)
+        public IEnumerable<string> GetUsesAttackPatterns(string id)
         {
             MitreContext mitreContext = services.GetRequiredService<MitreContext>();
             return mitreContext.MitreRelationships
@@ -38,6 +38,16 @@ namespace MitreAttackHelper.Services.Mitre
                 && relationship.SourceRef == id
                 && relationship.TargetRef.StartsWith("attack"))
                 .Select(relationship => relationship.TargetRef);
+        }
+
+        public IEnumerable<string> GetTargetUsedByIntrusionSets(string subId)
+        {
+            MitreContext mitreContext = services.GetRequiredService<MitreContext>();
+            return mitreContext.MitreRelationships
+                .Where(relationship => relationship.RelationshipType == "uses"
+                && relationship.TargetRef == subId
+                && relationship.SourceRef.StartsWith("intrusion-set"))
+                .Select(relationship => relationship.SourceRef);
         }
     }
 }

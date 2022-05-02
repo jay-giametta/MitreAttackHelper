@@ -12,7 +12,6 @@ namespace MitreAttackHelper.Pages.Matrix
 {
     public class IndexModel : PageModel
     {
-        protected string intrusionSet;
         protected readonly IServiceProvider services;
         public IEnumerable<(MitreTactic Tactic, IEnumerable<(MitreAttackPattern AttackPattern, string ParentId)> AttackPatterns)> CombinedTacticData { get; set; }
         public IEnumerable<MitreIntrusionSet> IntrusionSets { get; private set; }
@@ -28,9 +27,8 @@ namespace MitreAttackHelper.Pages.Matrix
         {
             try
             {
-                LoadParameters(Request?.Query);
                 LoadMatrixData();
-                LoadIntrusionSetData(intrusionSet);
+                LoadIntrusionSetData();
                 LoadCombinedTacticsData(Matrix);
             }
             catch (InvalidOperationException)
@@ -79,7 +77,7 @@ namespace MitreAttackHelper.Pages.Matrix
                     .AsEnumerable()));
         }
 
-        protected void LoadIntrusionSetData(string id)
+        protected void LoadIntrusionSetData()
         {
             MitreIntrusionSetService mitreIntrusionSetService = services.GetRequiredService<MitreIntrusionSetService>();
             MitreRelationshipService mitreRelationshipService = services.GetRequiredService<MitreRelationshipService>();
@@ -92,11 +90,6 @@ namespace MitreAttackHelper.Pages.Matrix
         {
             MitreMatrixService mitreMatrixService = services.GetRequiredService<MitreMatrixService>();
             Matrix = mitreMatrixService.Get().First();
-        }
-
-        protected void LoadParameters(IQueryCollection query)
-        {
-            intrusionSet = query?["intrusion-set"];
         }
     }
 }
