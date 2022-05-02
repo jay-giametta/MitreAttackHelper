@@ -18,7 +18,7 @@ namespace MitreAttackHelper.Controllers.Mitre
         public IActionResult GetAttackPatternsUsed(string id)
         {
             MitreRelationshipService mitreRelationshipService = services.GetRequiredService<MitreRelationshipService>();
-            return Ok(JsonConvert.SerializeObject(mitreRelationshipService.GetAttackPatternsUsed(id)));
+            return Ok(JsonConvert.SerializeObject(mitreRelationshipService.GetAttackPatternsUsed(id), Formatting.Indented));
         }
     }
 }
