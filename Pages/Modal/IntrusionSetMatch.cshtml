@@ -7,19 +7,34 @@
             <h5 class="modal-title">Top Matching Intrusion Sets</h5>
         </div>
         <div class="modal-body">
-            @if (Model.CombinedIntrusionSetData.Any())
-            {
-                foreach ((string Name, string Id, int Count) in Model.CombinedIntrusionSetData)
-                {
-                    <span>@Name - @Count</span>
-                    <br />
-                }
-            }
-            else
-            {
-                <span>No Results Found</span>
-                <br />
-            }
+            <table id="intrusion-set-matches" class="table text-center" aria-describedby="Intrusion Set Matches">
+                <thead>
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Matches</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.CombinedIntrusionSetData.Any())
+                    {
+                        foreach ((string Name, string Id, int Count) in Model.CombinedIntrusionSetData)
+                        {
+                            <tr>
+                                <td>@Name</td>
+                                <td>@Count</td>
+                                <td><a href="javascript: jIntrusionSelect('@Id');">View</a></td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="3">No Results Found</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary" onclick="$('#modal').modal('hide')">Close</button>

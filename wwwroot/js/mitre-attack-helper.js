@@ -28,6 +28,7 @@ function jIntrusionSelect(id) {
                 success: (attackPatternIds) => {
                     $('#spinner').hide();
                     JSON.parse(attackPatternIds).forEach((attackPatternId) => $(`#${attackPatternId}`).addClass('selected'));
+                    $('#intrusion-set').val(id);
                 },
                 failure: (error) => {
                     $('#spinner').hide();

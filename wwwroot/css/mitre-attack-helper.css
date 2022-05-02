@@ -23,7 +23,7 @@
 
 .selected{
     color: white;
-    background-color: dodgerblue;
+    background-color: indianred;
     text-decoration-color: white !important;
 }
 
@@ -42,12 +42,12 @@
 
 .user-selected {
     color: white;
-    background-color: forestgreen;
+    background-color: dodgerblue;
     text-decoration-color: white !important;
 }
 
 .user-selected.selected {
     color: white;
-    background-color: teal !important;
+    background-color: mediumpurple !important;
     text-decoration-color: white !important;
 }
