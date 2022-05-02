@@ -11,7 +11,7 @@
 }
 
 function jIntrusionSelect(id) {
-    if (id !== "") {
+    if (id !== "blank") {
         $(document).ready(() => {
             $('#spinner').show();
             $.ajax({
@@ -19,7 +19,6 @@ function jIntrusionSelect(id) {
                 url: `API/Mitre/Relationships/${id}/AttackPatternsUsed`,
                 success: (attackPatternIds) => {
                     $('#spinner').hide();
-                    jClearSelection();
                     JSON.parse(attackPatternIds).forEach((attackPatternId) => $(`#${attackPatternId}`).addClass('selected'));
                 },
                 failure: (error) => {
@@ -63,5 +62,5 @@ function jSelectToggle(domElement) {
 
 function jClearSelection() {
     $(document).find('.selected').removeClass('selected');
-    $('#result-info-display').html('Showing Results for User Selection');
+    $('#intrusion-set').val("blank");
 }

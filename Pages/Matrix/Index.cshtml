@@ -9,7 +9,7 @@
             <span class="my-auto fw-bold">
                 Intrusion Set
                 <select id="intrusion-set" class="text-center" onchange="jIntrusionSelect($(this).val())">
-                    <option></option>
+                    <option value="blank"></option>
                     @foreach (MitreIntrusionSet intrusionSet in Model.IntrusionSets)
                     {
                         <option value="@intrusionSet.Id">@intrusionSet.Name</option>
