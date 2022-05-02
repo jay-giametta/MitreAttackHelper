@@ -28,9 +28,6 @@ function jIntrusionSelect(id) {
             });
         });
     }
-    else {
-        jClearSelection();
-    }
 }
 
 function jLoad(divId, url) {
@@ -62,7 +59,7 @@ function jSelectToggle(domElement) {
 }
 
 function jClearSelection() {
-    $(document).find('.selected').removeClass('user-selected');
+    $(document).find('.user-selected').removeClass('user-selected');
     $(document).find('.selected').removeClass('selected');
     $('#intrusion-set').val("blank");
 }
