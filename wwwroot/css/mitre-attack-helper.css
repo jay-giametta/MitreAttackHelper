@@ -39,3 +39,15 @@
     left: 0;
     right: 0;
 }
+
+.user-selected {
+    color: white;
+    background-color: forestgreen;
+    text-decoration-color: white !important;
+}
+
+.user-selected.selected {
+    color: white;
+    background-color: teal !important;
+    text-decoration-color: white !important;
+}

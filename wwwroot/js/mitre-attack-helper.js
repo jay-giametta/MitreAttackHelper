@@ -11,6 +11,7 @@
 }
 
 function jIntrusionSelect(id) {
+    $(document).find('.selected').removeClass('selected');
     if (id !== "blank") {
         $(document).ready(() => {
             $('#spinner').show();
@@ -51,16 +52,17 @@ function jLoad(divId, url) {
 
 function jSelectToggle(domElement) {
     const element = $(domElement).parent();
-    if (element.hasClass('selected')) {
-        element.removeClass('selected');
+    if (element.hasClass('user-selected')) {
+        element.removeClass('user-selected');
     }
     else {
-        element.addClass('selected');
+        element.addClass('user-selected');
     }
     return false;
 }
 
 function jClearSelection() {
+    $(document).find('.selected').removeClass('user-selected');
     $(document).find('.selected').removeClass('selected');
     $('#intrusion-set').val("blank");
 }
