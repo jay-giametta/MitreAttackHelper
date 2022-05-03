@@ -84,13 +84,13 @@ function jIdentifyFollowOns() {
         });
 
         if (max != 0) {
-            $(document).find('.attack').css('opacity', 0);
+            $(document).find('.attack').not('.user-selected').css('opacity', 0);
             $('#follow-ons').html('Show All Attacks');
             $('#follow-ons').attr('href', 'javascript:jClearFollowOns();');
         }
 
         Object.keys(followOns).forEach((key) => {
-            const element = $(`#${key}`);
+            const element = $(document).find(`[id='${key}']`);
             const opacity = (followOns[key] / max).toFixed(3);
             element.addClass('selected');
             element.css('opacity', opacity);
