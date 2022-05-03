@@ -7,9 +7,8 @@
 
 function jClearSelection() {
     $(document).find('.user-selected').removeClass('user-selected');
-    $(document).find('.selected').removeClass('selected');
-    $(document).find('.attack').css('opacity', 1);
     $('#intrusion-set').val("blank");
+    jClearFollowOns();
     userSelected = [];
 }
 
