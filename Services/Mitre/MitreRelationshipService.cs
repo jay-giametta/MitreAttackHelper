@@ -37,7 +37,9 @@ namespace MitreAttackHelper.Services.Mitre
                 .Where(relationship => relationship.RelationshipType == "uses"
                 && relationship.SourceRef == id
                 && relationship.TargetRef.StartsWith("attack"))
-                .Select(relationship => relationship.TargetRef);
+                .Select(relationship => relationship.TargetRef)
+                .GroupBy(intrusionSet => intrusionSet)
+                .Select(group => group.First());
         }
 
         public IEnumerable<string> GetTargetUsedByIntrusionSets(string subId)
@@ -47,7 +49,9 @@ namespace MitreAttackHelper.Services.Mitre
                 .Where(relationship => relationship.RelationshipType == "uses"
                 && relationship.TargetRef == subId
                 && relationship.SourceRef.StartsWith("intrusion-set"))
-                .Select(relationship => relationship.SourceRef);
+                .Select(relationship => relationship.SourceRef)
+                .GroupBy(attackPattern => attackPattern)
+                .Select(group => group.First());
         }
     }
 }

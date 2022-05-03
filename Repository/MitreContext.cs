@@ -27,13 +27,18 @@ namespace MitreAttackHelper.Repository
 
         public MitreContext(string url = null, string jsonFile = "App_Data/enterprise-attack.json")
         {
+            LoadFromBundle(url, jsonFile);
+        }
+
+        protected void LoadFromBundle(string url = null, string jsonFile = "App_Data/enterprise-attack.json")
+        {
             MitreBundle mitreBundle;
 
             try
             {
                 mitreBundle = JsonConvert.DeserializeObject<MitreBundle>(new WebClient().DownloadString(url));
             }
-            catch(Exception)
+            catch (Exception)
             {
                 mitreBundle = JsonConvert.DeserializeObject<MitreBundle>(File.ReadAllText(jsonFile));
             }
@@ -48,7 +53,7 @@ namespace MitreAttackHelper.Repository
             LoadMitreMalware(mitreBundle.Objects.Where(generic => generic.Type == "malware"));
             LoadMitreMarkingDefinitions(mitreBundle.Objects.Where(generic => generic.Type == "marking-definition"));
             LoadMitreMatrices(mitreBundle.Objects.Where(generic => generic.Type == "x-mitre-matrix"));
-            LoadMitreRelationships(mitreBundle.Objects.Where(generic => generic.Type == "relationship"), 
+            LoadMitreRelationships(mitreBundle.Objects.Where(generic => generic.Type == "relationship"),
                 new string[] { "subtechnique-of", "uses" });
             LoadMitreTactics(mitreBundle.Objects.Where(generic => generic.Type == "x-mitre-tactic"));
             LoadMitreTools(mitreBundle.Objects.Where(generic => generic.Type == "tool"));

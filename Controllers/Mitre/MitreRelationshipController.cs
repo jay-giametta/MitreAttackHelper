@@ -27,10 +27,7 @@ namespace MitreAttackHelper.Controllers.Mitre
         {
             MitreRelationshipService mitreRelationshipService = services.GetRequiredService<MitreRelationshipService>();
             return Ok(
-                JsonConvert.SerializeObject(mitreRelationshipService.GetTargetUsedByIntrusionSets(id)
-                .GroupBy(target => target)
-                .Select(target => target.First())
-                , Formatting.Indented));
+                JsonConvert.SerializeObject(mitreRelationshipService.GetTargetUsedByIntrusionSets(id), Formatting.Indented));
         }
     }
 }

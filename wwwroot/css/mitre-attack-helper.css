@@ -1,14 +1,18 @@
-﻿a{
+﻿a {
     color: dodgerblue;
     font-weight: normal;
     text-decoration: none;
 }
 
-.fs-smaller{
+.child {
+    color: dimgray;
+}
+
+.fs-smaller {
     font-size: smaller;
 }
 
-.h-50px{
+.h-50px {
     height: 50px;
 }
 
@@ -17,11 +21,7 @@
     cursor: pointer;
 }
 
-.child{
-    color: dimgray;
-}
-
-.selected{
+.selected {
     color: white;
     background-color: indianred;
     text-decoration-color: white !important;
@@ -46,8 +46,8 @@
     text-decoration-color: white !important;
 }
 
-.user-selected.selected {
-    color: white;
-    background-color: mediumpurple !important;
-    text-decoration-color: white !important;
-}
+    .user-selected.selected {
+        color: white;
+        background-color: mediumpurple !important;
+        text-decoration-color: white !important;
+    }
