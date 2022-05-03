@@ -14,12 +14,12 @@ namespace MitreAttackHelper.Pages.Modal
     {
         protected IServiceProvider services;
         protected Dictionary<string, int> sets;
-        public IEnumerable<(string Id, string Name, int Count)> CombinedIntrusionSetData;
+        public IEnumerable<(string Id, string Name, string Description, int Count)> CombinedIntrusionSetData;
 
         public IntrusionSetMatchModel(IServiceProvider services)
         {
             this.services = services;
-            CombinedIntrusionSetData = new List<(string Id, string Name, int Count)>();
+            CombinedIntrusionSetData = new List<(string Id, string Name, string Description, int Count)>();
         }
 
         public IActionResult OnGet()
@@ -46,7 +46,8 @@ namespace MitreAttackHelper.Pages.Modal
             MitreIntrusionSetService mitreIntrusionSetService = services.GetRequiredService<MitreIntrusionSetService>();
 
             CombinedIntrusionSetData = setData?
-                .Select(set => (mitreIntrusionSetService.Get(set.Key)?.Name, set.Key, set.Value))
+                .Select(set => new { intrusionSet = mitreIntrusionSetService.Get(set.Key), set.Value })
+                .Select(combined => (combined.intrusionSet.Id, combined.intrusionSet.Name, combined.intrusionSet.Description, combined.Value))
                 ?? CombinedIntrusionSetData;
         }
     }

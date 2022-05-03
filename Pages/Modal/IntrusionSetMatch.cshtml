@@ -18,10 +18,10 @@
                 <tbody>
                     @if (Model.CombinedIntrusionSetData.Any())
                     {
-                        foreach ((string Name, string Id, int Count) in Model.CombinedIntrusionSetData)
+                        foreach ((string Id, string Name, string Description, int Count) in Model.CombinedIntrusionSetData)
                         {
                             <tr>
-                                <td>@Name</td>
+                                <td title="@Description">@Name</td>
                                 <td>@Count</td>
                                 <td><a href="javascript: jIntrusionSelect('@Id');">View</a></td>
                             </tr>
